@@ -122,12 +122,6 @@ namespace Tail.Services
 				{
 					if (typeof(ITailProvider).IsAssignableFrom(type))
 					{
-						// Got an empty constructor?
-						var emptyConstructor = type.GetConstructor(Type.EmptyTypes);
-						if (emptyConstructor == null)
-						{
-							continue;
-						}
 						yield return type;
 					}
 				}
