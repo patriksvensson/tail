@@ -13,7 +13,8 @@ A minimalistic, provider based WPF version of the UNIX `tail -f` command which c
 * To resume automatic scrolling, press the play button.
 
 #How to create a stream provider
-*To be written*
+
+See the [patriksvensson/tail-example](https://github.com/patriksvensson/tail-example) repository for an example of how to extend Tail.
 
 #Credits
 * [MahApps.Metro UI toolkit](http://mahapps.com/MahApps.Metro)
