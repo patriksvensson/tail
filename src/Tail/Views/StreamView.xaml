@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Tail.Views.StreamView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:p="clr-namespace:Tail.Presentation"
+			 xmlns:cal="http://www.caliburnproject.org"
+			 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+			 mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+	<TextBox x:Name="Output" BorderBrush="Transparent" 
+			 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
+			 IsReadOnly="True" BorderThickness="0" AllowDrop="True"
+			 p:AutoScrollBehavior.IsEnabled="{Binding AutoScrollEnabled}">
+		
+		<i:Interaction.Triggers>
+			<!-- Preview Drag Enter -->
+			<i:EventTrigger EventName="PreviewDragEnter">
+				<cal:ActionMessage MethodName="Drag">
+					<cal:Parameter Value="$eventArgs" />
+				</cal:ActionMessage>
+			</i:EventTrigger>
+			<!-- Preview Drag Over -->
+			<i:EventTrigger EventName="PreviewDragOver">
+				<cal:ActionMessage MethodName="Drag">
+					<cal:Parameter Value="$eventArgs" />
+				</cal:ActionMessage>
+			</i:EventTrigger>
+			<!-- Preview Drop -->
+			<i:EventTrigger EventName="PreviewDrop">
+				<cal:ActionMessage MethodName="Drop">
+					<cal:Parameter Value="$eventArgs" />
+				</cal:ActionMessage>
+			</i:EventTrigger>
+		</i:Interaction.Triggers>
+
+	</TextBox>
+
+</UserControl>

@@ -1,0 +1,103 @@
+﻿<controls:MetroWindow x:Class="Tail.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:cal="http://www.caliburnproject.org"
+		xmlns:p="clr-namespace:Tail.Presentation"
+		Width="640" Height="480" Icon="../Icon.ico" 
+		MinWidth="640" MinHeight="480"
+		ShowIconOnTitleBar="False" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip">
+
+	<Window.Resources>		
+		<ResourceDictionary>
+			<p:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+				<ResourceDictionary Source="../Resources/Icons.xaml" />
+			</ResourceDictionary.MergedDictionaries>		
+		</ResourceDictionary>
+	</Window.Resources>
+
+	<controls:MetroWindow.WindowCommands>
+		<controls:WindowCommands>
+
+			<!-- Open button -->
+			<Button Content="Open Stream" cal:Message.Attach="OpenListener">
+				<Button.Visibility>
+					<Binding Path="CanOpenListener" Converter="{StaticResource BoolToVisibilityConverter}" />
+				</Button.Visibility>
+			</Button>
+			<!-- Open button -->
+			<Button Content="Close Stream" cal:Message.Attach="CloseListener">
+				<Button.Visibility>
+					<Binding Path="CanCloseListener" Converter="{StaticResource BoolToVisibilityConverter}" />
+				</Button.Visibility>
+			</Button>
+			<!-- Resume button -->
+			<Button ToolTip="Resume auto-scrolling" cal:Message.Attach="Resume">
+				<Button.Visibility>
+					<Binding Path="CanResume" Converter="{StaticResource BoolToVisibilityConverter}" />
+				</Button.Visibility>
+				<Rectangle Width="10" Height="10">
+					<Rectangle.Resources>
+						<!-- ReSharper disable Xaml.RedundantResource -->
+						<SolidColorBrush x:Key="BlackBrush" Color="White" />
+						<!-- ReSharper restore Xaml.RedundantResource -->
+					</Rectangle.Resources>
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_play}" />
+					</Rectangle.Fill>
+				</Rectangle>
+			</Button>
+			<!-- Pause button -->
+			<Button ToolTip="Pause auto-scrolling" cal:Message.Attach="Pause">
+				<Button.Visibility>
+					<Binding Path="CanPause" Converter="{StaticResource BoolToVisibilityConverter}" />
+				</Button.Visibility>
+				<Rectangle Width="10" Height="10">
+					<Rectangle.Resources>
+						<!-- ReSharper disable Xaml.RedundantResource -->
+						<SolidColorBrush x:Key="BlackBrush" Color="White" />
+						<!-- ReSharper restore Xaml.RedundantResource -->
+					</Rectangle.Resources>					
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pause}" />
+					</Rectangle.Fill>
+				</Rectangle>
+			</Button>
+			<!-- Settings button -->
+			<Button ToolTip="Settings..." cal:Message.Attach="ShowSettings">
+				<Rectangle Width="10" Height="10">
+					<Rectangle.Resources>
+						<!-- ReSharper disable Xaml.RedundantResource -->
+						<SolidColorBrush x:Key="BlackBrush" Color="White" />
+						<!-- ReSharper restore Xaml.RedundantResource -->
+					</Rectangle.Resources>
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+					</Rectangle.Fill>
+				</Rectangle>
+			</Button>
+			<!-- Help button -->
+			<Button ToolTip="About..." cal:Message.Attach="ShowAbout">
+				<Rectangle Width="7" Height="10">
+					<Rectangle.Resources>
+						<!-- ReSharper disable Xaml.RedundantResource -->
+						<SolidColorBrush x:Key="BlackBrush" Color="White" />
+						<!-- ReSharper restore Xaml.RedundantResource -->
+					</Rectangle.Resources>
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill" Visual="{StaticResource appbar_question}" />
+					</Rectangle.Fill>
+				</Rectangle>
+			</Button>			
+		</controls:WindowCommands>
+	</controls:MetroWindow.WindowCommands>
+
+	<ContentControl x:Name="ActiveItem" />	
+
+</controls:MetroWindow>
