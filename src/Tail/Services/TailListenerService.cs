@@ -41,7 +41,7 @@ namespace Tail.Services
 				// Create the thread.
 				var callback = new TailListenerThreadCallback(id, Publish);
 				var thread = new TailListenerThread(id, callback, streamListener, streamContext);
-
+                thread.Start();
                 
                 _logger.Information("Created thread with id #{0} ({1}).", id, streamContext.GetDescription());
 
