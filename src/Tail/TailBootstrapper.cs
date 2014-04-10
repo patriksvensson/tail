@@ -96,10 +96,13 @@ namespace Tail
 					_kernel.Bind<ITailProvider>().To(type).InSingletonScope();
 				}
 				// Make sure Caliburn.Micro can find external views.
-				foreach (var assembly in assemblies)
-				{
-					AssemblySource.Instance.Add(assembly);
-				}
+			    if (assemblies != null)
+			    {
+			        foreach (var assembly in assemblies)
+			        {
+			            AssemblySource.Instance.Add(assembly);
+			        }
+			    }
 			}
 
 			// Iterate all existing providers.

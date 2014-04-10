@@ -3,6 +3,11 @@
 [Oo]bj/
 [Tt]emp/
 [Pp]ackages/
+[Bb]uild/
+
+build-results/
+tools/fake/
+tools/xunit.runners/
 
 # mstest test results
 TestResults
