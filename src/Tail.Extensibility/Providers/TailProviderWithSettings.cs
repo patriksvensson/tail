@@ -2,10 +2,9 @@
 
 namespace Tail.Extensibility
 {
-	public abstract class TailProviderWithSettings<TListener, TContext, TSettings> : ITailProvider
+	public abstract class TailProviderWithSettings<TListener, TContext> : ITailProvider
 		where TListener : TailStreamListener<TContext>
 		where TContext : ITailStreamContext
-		where TSettings : ITailSettings
 	{
 		public Type ConfigurationType
 		{
@@ -27,7 +26,7 @@ namespace Tail.Extensibility
 
 		ITailStreamContext ITailProvider.CreateContext(ITailConfiguration viewModel)
 		{
-			return this.CreateContext();
+			return CreateContext();
 		}
 	}
 }

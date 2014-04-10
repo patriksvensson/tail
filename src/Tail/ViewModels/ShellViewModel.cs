@@ -1,32 +1,4 @@
-﻿// ﻿
-// Copyright (c) 2013 Patrik Svensson
-// 
-// This file is part of Tail.
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-// 
-using Caliburn.Micro;
-using System;
-using Tail.Extensibility;
-using Tail.Services;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Caliburn.Micro;
 using Tail.Messages;
 using BlackBox;
 
@@ -36,7 +8,6 @@ namespace Tail.ViewModels
 		IHandle<StartListeningEvent>, IHandle<StopListeningEvent>,
 		IHandle<StartedListeningEvent>, IHandle<StoppedListeningEvent>
 	{
-		private readonly IEventAggregator _eventAggregator;
 		private readonly IWindowManager _windowManager;
 		private readonly ITailListenerService _service;
 		private readonly ILogger _logger;
@@ -48,12 +19,12 @@ namespace Tail.ViewModels
 
 		public bool CanPause
 		{
-			get { return this.ActiveItem != null && this.ActiveItem.CanPause; }
+			get { return ActiveItem != null && ActiveItem.CanPause; }
 		}
 
 		public bool CanResume
 		{
-			get { return this.ActiveItem != null && this.ActiveItem.CanResume; }
+			get { return ActiveItem != null && ActiveItem.CanResume; }
 		}
 
 		public bool CanOpenListener
@@ -72,10 +43,10 @@ namespace Tail.ViewModels
 			set
 			{
 				_currentId = value;
-				this.NotifyOfPropertyChange(() => CanPause);
-				this.NotifyOfPropertyChange(() => CanResume);
-				this.NotifyOfPropertyChange(() => CanOpenListener);
-				this.NotifyOfPropertyChange(() => CanCloseListener);
+				NotifyOfPropertyChange(() => CanPause);
+				NotifyOfPropertyChange(() => CanResume);
+				NotifyOfPropertyChange(() => CanOpenListener);
+				NotifyOfPropertyChange(() => CanCloseListener);
 			}
 		}
 
@@ -84,8 +55,7 @@ namespace Tail.ViewModels
 			ISettingsViewModelFactory settingsFactory, AboutViewModel aboutViewModel)
 		{
 			// Subscribe for events.
-			_eventAggregator = eventAggregator;
-			_eventAggregator.Subscribe(this);
+            eventAggregator.Subscribe(this);
 
 			_windowManager = windowManager;
 			_service = service;
@@ -96,8 +66,8 @@ namespace Tail.ViewModels
 			_aboutViewModel = aboutViewModel;
 
 			// Set the display name.
-			this.DisplayName = "Tail";
-			this.CurrentId = -1;
+			DisplayName = "Tail";
+			CurrentId = -1;
 		}
 
 		protected override void OnDeactivate(bool close)
@@ -123,24 +93,24 @@ namespace Tail.ViewModels
 
 		public void Pause()
 		{
-			if (this.ActiveItem != null)
+			if (ActiveItem != null)
 			{
 				_logger.Information("Pausing auto scroll");
-				this.ActiveItem.Pause();
+				ActiveItem.Pause();
 			}
-			this.NotifyOfPropertyChange(() => CanPause);
-			this.NotifyOfPropertyChange(() => CanResume);
+			NotifyOfPropertyChange(() => CanPause);
+			NotifyOfPropertyChange(() => CanResume);
 		}
 
 		public void Resume()
 		{
-			if (this.ActiveItem != null)
+			if (ActiveItem != null)
 			{
 				_logger.Information("Resuming auto scroll");
-				this.ActiveItem.Resume();
+				ActiveItem.Resume();
 			}
-			this.NotifyOfPropertyChange(() => CanPause);
-			this.NotifyOfPropertyChange(() => CanResume);
+			NotifyOfPropertyChange(() => CanPause);
+			NotifyOfPropertyChange(() => CanResume);
 		}
 
 		public void ShowSettings()
@@ -180,19 +150,19 @@ namespace Tail.ViewModels
 
 			var viewModel = _streamFactory.Create(message.ThreadId);
 
-			this.ActivateItem(viewModel);
-			this.CurrentId = message.ThreadId;
-			this.DisplayName = string.Format("Tail [{0}]", message.Description);
+			ActivateItem(viewModel);
+			CurrentId = message.ThreadId;
+			DisplayName = string.Format("Tail [{0}]", message.Description);
 		}
 
 		public void Handle(StoppedListeningEvent message)
 		{
 			_logger.Information("Received StoppedListeningEvent (#{0})", message.ThreadId);
 
-			this.CloseItem(this.ActiveItem);
+			this.CloseItem(ActiveItem);
 
-			this.CurrentId = -1;
-			this.DisplayName = "Tail";
+			CurrentId = -1;
+			DisplayName = "Tail";
 		}
 	}
 }

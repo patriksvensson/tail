@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using Tail.Extensibility;
-using Tail.Messages;
 
 namespace Tail.Services
 {
@@ -31,12 +26,14 @@ namespace Tail.Services
 			_context = context;
 			_stopSignal = new ManualResetEvent(false);
 			_stoppedSignal = new ManualResetEvent(false);
-
-			// Start the thread.
-			_thread = new Thread(this.Execute);
-			_thread.IsBackground = true;
-			_thread.Start();
+			_thread = new Thread(Execute);
+			_thread.IsBackground = true;			
 		}
+
+	    public void Start()
+	    {
+            _thread.Start();
+	    }
 
 		public WaitHandle Stop()
 		{

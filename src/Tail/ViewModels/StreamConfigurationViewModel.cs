@@ -2,19 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Tail.Extensibility;
 using Tail.Messages;
 using Tail.Models;
 
 namespace Tail.ViewModels
 {
-	/// <summary>
-	/// This is a factory interface used by Ninject.
-	/// Do not remove this even if it seem unused.
-	/// </summary>
 	public interface IStreamConfigurationViewModelFactory
 	{
+        ////////////////////////////////////////////////
+        // This is a factory interface used by Ninject.
+        // Do not remove this even if it seem unused.
+        ////////////////////////////////////////////////
+
 		StreamConfigurationViewModel Create();
 	}
 
@@ -37,7 +37,7 @@ namespace Tail.ViewModels
 			set
 			{
 				_selectedProvider = value;
-				this.NotifyOfPropertyChange(() => SelectedProvider);
+				NotifyOfPropertyChange(() => SelectedProvider);
 			}
 		}
 
@@ -72,12 +72,12 @@ namespace Tail.ViewModels
 			// Select the first provider in the list.
 			if (_providers.Count > 0)
 			{
-				this.SelectedProvider = this.Providers[0];
-				this.ToggleProvider(this.Providers[0]);
+				SelectedProvider = Providers[0];
+				ToggleProvider(Providers[0]);
 			}
 
 			// Set the display name.
-			this.DisplayName = "Open Stream";
+			DisplayName = "Open Stream";
 		}
 
 		public void ToggleProvider(TailProviderInfo eventArgs)
@@ -85,12 +85,12 @@ namespace Tail.ViewModels
 			if (_viewModels.ContainsKey(eventArgs.Type))
 			{
 				// Set the active item.
-				this.ActivateItem(_viewModels[eventArgs.Type]);
+				ActivateItem(_viewModels[eventArgs.Type]);
 			}
 			else
 			{
 				// Close the currently active item.
-				this.CloseItem(this.ActiveItem);
+				this.CloseItem(ActiveItem);
 			}
 		}
 
@@ -103,10 +103,10 @@ namespace Tail.ViewModels
 				// Find the view model.
 				var type = selectedProvider.Type;
 
-				if (this.IsValidConfiguration(type))
+				if (IsValidConfiguration(type))
 				{
 					var listener = _providerService.CreateListener(type);
-					var context = this.CreateContext(type);
+					var context = CreateContext(type);
 
 					if (listener != null && context != null)
 					{
@@ -114,7 +114,7 @@ namespace Tail.ViewModels
 						_eventAggregator.Publish(new StartListeningEvent(listener, context));
 
 						// Close the window.
-						this.TryClose(true);
+						TryClose(true);
 					}
 				}
 			}

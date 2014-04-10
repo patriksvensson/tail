@@ -28,7 +28,7 @@ namespace Tail.Extensibility
 
 		ITailStreamContext ITailProvider.CreateContext(ITailConfiguration viewModel)
 		{
-			return this.CreateContext((TConfiguration)viewModel);
+			return CreateContext((TConfiguration)viewModel);
 		}
 	}
 }

@@ -1,8 +1,4 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Win32;
 using Tail.Extensibility;
 using System.IO;
@@ -20,8 +16,8 @@ namespace Tail.Providers.ViewModels
 			set
 			{
 				_path = value;
-				this.NotifyOfPropertyChange(() => Path);
-				this.Validate();
+				NotifyOfPropertyChange(() => Path);
+				Validate();
 			}
 		}
 
@@ -31,7 +27,7 @@ namespace Tail.Providers.ViewModels
 			set
 			{
 				_validationError = value;
-				this.NotifyOfPropertyChange(() => ValidationError);
+				NotifyOfPropertyChange(() => ValidationError);
 			}
 		}
 
@@ -40,10 +36,10 @@ namespace Tail.Providers.ViewModels
 			bool valid = !string.IsNullOrWhiteSpace(_path) && File.Exists(_path);
 			if (!valid)
 			{
-				this.ValidationError = "File path is invalid.";
+				ValidationError = "File path is invalid.";
 				return false;
 			}
-			this.ValidationError = string.Empty;
+			ValidationError = string.Empty;
 			return true;
 		}
 
@@ -57,9 +53,9 @@ namespace Tail.Providers.ViewModels
 			var dialog = new OpenFileDialog();
 			if (dialog.ShowDialog() == true)
 			{
-				this.Path = dialog.FileName;
+				Path = dialog.FileName;
 			}
-			this.Validate();
+			Validate();
 		}
 	}
 }

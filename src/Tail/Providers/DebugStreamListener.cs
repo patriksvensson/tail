@@ -1,9 +1,6 @@
 ﻿using BlackBox;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using Tail.Extensibility;
 using Tail.Providers.Utilities;
@@ -29,12 +26,12 @@ namespace Tail.Providers
 
 		~DebugStreamListener()
 		{
-			this.Dispose();
+			Dispose();
 		}
 
 		public void Dispose()
 		{
-			this.Shutdown();
+			Shutdown();
 		}
 
 		public override void Initialize(DebugStreamContext context)
@@ -45,7 +42,7 @@ namespace Tail.Providers
 
 			// Initialize the security descriptor.
 			_logger.Verbose("Creating new security descriptor...");
-			SecurityDescriptor sd = new SecurityDescriptor();
+			var sd = new SecurityDescriptor();
 			if (!Win32Native.InitializeSecurityDescriptor(ref sd, Win32Native.SECURITY_DESCRIPTOR_REVISION))
 			{
 				_logger.Error("Failed to initializes the security descriptor.");
@@ -60,7 +57,7 @@ namespace Tail.Providers
 			}
 
 			_logger.Verbose("Creating security attributes...");
-			SecurityAttributes sa = new SecurityAttributes();
+			var sa = new SecurityAttributes();
 			sa.nLength = Marshal.SizeOf(sa);
 			sa.lpSecurityDescriptor = Marshal.AllocHGlobal(Marshal.SizeOf(sd));
 			Marshal.StructureToPtr(sd, sa.lpSecurityDescriptor, false);
@@ -123,7 +120,7 @@ namespace Tail.Providers
 				if (ret == Win32Native.WAIT_OBJECT_0)
 				{
 					// Get the process ID and the message.
-					var pid = Marshal.ReadInt32(_sharedMemory);
+					Marshal.ReadInt32(_sharedMemory);
 					var message = Marshal.PtrToStringAnsi(pString);
 
 					// Publish the message.

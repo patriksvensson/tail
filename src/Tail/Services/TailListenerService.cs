@@ -1,9 +1,7 @@
 ﻿using BlackBox;
 using Caliburn.Micro;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using Tail.Extensibility;
 using Tail.Messages;
@@ -41,10 +39,11 @@ namespace Tail.Services
 				streamListener.Initialize(streamContext);
 
 				// Create the thread.
-				var callback = new TailListenerThreadCallback(id, this.Publish);
+				var callback = new TailListenerThreadCallback(id, Publish);
 				var thread = new TailListenerThread(id, callback, streamListener, streamContext);
 
-				_logger.Information("Created thread with id #{0} ({1}).", id, streamContext.GetDescription());
+                
+                _logger.Information("Created thread with id #{0} ({1}).", id, streamContext.GetDescription());
 
 				// Add the thread to the collection.
 				_threads.Add(thread);
@@ -59,7 +58,7 @@ namespace Tail.Services
 
 				foreach (var thread in _threads)
 				{
-					this.Stop(thread, remove: false);
+					Stop(thread, remove: false);
 				}
 				_threads.Clear();
 			}
@@ -73,7 +72,7 @@ namespace Tail.Services
 				if (thread != null)
 				{
 					// Stop the thread.
-					this.Stop(thread);
+					Stop(thread);
 				}
 			}
 		}

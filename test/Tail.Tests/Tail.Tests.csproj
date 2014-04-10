@@ -67,20 +67,18 @@
   <ItemGroup>
     <Compile Include="Fakes\FakeConfiguration.cs" />
     <Compile Include="Fakes\FakeProviderService.cs" />
-    <Compile Include="Helpers\ViewModelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fakes\FakeProvider.cs" />
-    <Compile Include="Unit\Messages\StoppedListeningEventFixture.cs" />
-    <Compile Include="Unit\Messages\PublishMessageEventFixture.cs" />
-    <Compile Include="Unit\Messages\StartedListeningEventFixture.cs" />
-    <Compile Include="Unit\Messages\StartListeningEventFixture.cs" />
-    <Compile Include="Unit\Messages\StopListeningEventFixture.cs" />
-    <Compile Include="Unit\Presentation\BoolToVisibilityConverterFixture.cs" />
-    <Compile Include="Unit\Services\TailServiceFixture.cs" />
-    <Compile Include="Unit\TailBootstrapperFixture.cs" />
-    <Compile Include="Unit\ViewModels\StreamConfigurationViewModelFixture.cs" />
-    <Compile Include="Unit\ViewModels\StreamViewModelFixture.cs" />
-    <Compile Include="Unit\ViewModels\ShellViewModelFixture.cs" />
+    <Compile Include="Unit\Messages\StoppedListeningEventTests.cs" />
+    <Compile Include="Unit\Messages\PublishMessageEventTests.cs" />
+    <Compile Include="Unit\Messages\StartedListeningEventTests.cs" />
+    <Compile Include="Unit\Messages\StartListeningEventTests.cs" />
+    <Compile Include="Unit\Messages\StopListeningEventTests.cs" />
+    <Compile Include="Unit\Presentation\BoolToVisibilityConverterTests.cs" />
+    <Compile Include="Unit\TailBootstrapperTests.cs" />
+    <Compile Include="Unit\ViewModels\StreamConfigurationViewModelTests.cs" />
+    <Compile Include="Unit\ViewModels\StreamViewModelTests.cs" />
+    <Compile Include="Unit\ViewModels\ShellViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tail.Extensibility\Tail.Extensibility.csproj">

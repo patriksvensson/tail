@@ -1,20 +1,18 @@
 ﻿using System.Diagnostics;
 using Caliburn.Micro;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Tail.Properties;
 using BlackBox;
 
 namespace Tail.ViewModels
 {
-	/// <summary>
-	/// This is a factory interface used by Ninject.
-	/// Do not remove this even if it seem unused.
-	/// </summary>
 	public interface IAboutViewModelFactory
 	{
+        ////////////////////////////////////////////////
+        // This is a factory interface used by Ninject.
+        // Do not remove this even if it seem unused.
+        ////////////////////////////////////////////////
+
 		AboutViewModel Create();
 	}
 
@@ -33,7 +31,7 @@ namespace Tail.ViewModels
 			_information = Resources.Information;
 			_logger = logger;
 
-			this.DisplayName = "About Tail";
+			DisplayName = "About Tail";
 		}
 
 		public void NavigateToGithub()

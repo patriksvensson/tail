@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Tail.Extensibility;
 
@@ -19,7 +16,7 @@ namespace Tail.Providers
 				return;
 			}
 
-			using (StreamReader reader = new StreamReader(file.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+			using (var reader = new StreamReader(file.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
 			{
 				long lastOffset = reader.BaseStream.Length;
 				if (reader.BaseStream.Length > 0)

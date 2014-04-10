@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Tail.Messages
 {
@@ -32,7 +29,7 @@ namespace Tail.Messages
 			}
 			if (string.IsNullOrWhiteSpace(description))
 			{
-				throw new ArgumentException("Description cannot be empty.", "description");
+				throw new ArgumentException(@"Description cannot be empty.", "description");
 			}
 			_threadId = threadId;
 			_description = description;

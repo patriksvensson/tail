@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 
 namespace Tail.Extensibility
 {
@@ -21,12 +17,12 @@ namespace Tail.Extensibility
 
 		void ITailStreamListener.Listen(ITailStreamContext context, ITailCallback callback, WaitHandle abortSignal)
 		{
-			this.Listen((TContext)context, callback, abortSignal);
+			Listen((TContext)context, callback, abortSignal);
 		}
 
 		void ITailStreamListener.Initialize(ITailStreamContext context)
 		{
-			this.Initialize((TContext)context);
+			Initialize((TContext)context);
 		}
 	}
 }

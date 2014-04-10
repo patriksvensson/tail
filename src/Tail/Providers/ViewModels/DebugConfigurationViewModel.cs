@@ -1,10 +1,4 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Win32;
-using System.IO;
 using Tail.Providers.Utilities;
 using Tail.Extensibility;
 
@@ -21,8 +15,8 @@ namespace Tail.Providers.ViewModels
 			set
 			{
 				_globalScope = value;
-				this.NotifyOfPropertyChange(() => GlobalScope);
-				this.Validate();
+				NotifyOfPropertyChange(() => GlobalScope);
+				Validate();
 			}
 		}
 
@@ -32,7 +26,7 @@ namespace Tail.Providers.ViewModels
 			set
 			{
 				_validationError = value;
-				this.NotifyOfPropertyChange(() => ValidationError);
+				NotifyOfPropertyChange(() => ValidationError);
 			}
 		}
 
@@ -42,11 +36,11 @@ namespace Tail.Providers.ViewModels
 			{
 				if (!Win32Native.IsProcessElevated())
 				{
-					this.ValidationError = "Global scope requires administrator privileges.";
+					ValidationError = "Global scope requires administrator privileges.";
 					return false;
 				}
 			}
-			this.ValidationError = string.Empty;
+			ValidationError = string.Empty;
 			return true;
 		}
 

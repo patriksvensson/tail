@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Tail.Extensibility;
+﻿using Tail.Extensibility;
 
 namespace Tail.Providers
 {
@@ -17,7 +13,7 @@ namespace Tail.Providers
 
 		public string GetDescription()
 		{
-			return this.Path;
+			return Path;
 		}
 
 		public FileStreamContext(string path)

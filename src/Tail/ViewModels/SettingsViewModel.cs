@@ -1,20 +1,19 @@
-﻿using BlackBox;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Tail.Extensibility;
 using Tail.Models;
 
 namespace Tail.ViewModels
 {
-	/// <summary>
-	/// This is a factory interface used by Ninject.
-	/// Do not remove this even if it seem unused.
-	/// </summary>
 	public interface ISettingsViewModelFactory
 	{
+        ////////////////////////////////////////////////
+        // This is a factory interface used by Ninject.
+        // Do not remove this even if it seem unused.
+        ////////////////////////////////////////////////
+
 		SettingsViewModel Create();
 	}
 
@@ -37,7 +36,7 @@ namespace Tail.ViewModels
 			set
 			{
 				_selectedProvider = value;
-				this.NotifyOfPropertyChange(() => SelectedProvider);
+				NotifyOfPropertyChange(() => SelectedProvider);
 			}
 		}
 
@@ -47,7 +46,7 @@ namespace Tail.ViewModels
 			set
 			{
 				_validationMessage = value;
-				this.NotifyOfPropertyChange(() => ValidationMessage);
+				NotifyOfPropertyChange(() => ValidationMessage);
 			}
 		}
 
@@ -91,11 +90,11 @@ namespace Tail.ViewModels
 			// Select the first provider in the list.
 			if (_providers.Count > 0)
 			{
-				this.SelectedProvider = this.Providers[0];
-				this.ToggleProvider(this.Providers[0]);
+				SelectedProvider = Providers[0];
+				ToggleProvider(Providers[0]);
 			}
 
-			this.DisplayName = "Settings";
+			DisplayName = "Settings";
 		}
 
 		public void ToggleProvider(TailProviderInfo eventArgs)
@@ -103,12 +102,12 @@ namespace Tail.ViewModels
 			if (_viewModels.ContainsKey(eventArgs.Type))
 			{
 				// Set the active item.
-				this.ActivateItem(_viewModels[eventArgs.Type]);
+				ActivateItem(_viewModels[eventArgs.Type]);
 			}
 			else
 			{
 				// Close the currently active item.
-				this.CloseItem(this.ActiveItem);
+				this.CloseItem(ActiveItem);
 			}
 		}
 
@@ -123,11 +122,11 @@ namespace Tail.ViewModels
 					if (!viewModel.Validate(out error))
 					{
 						// Select the provider.
-						this.SelectedProvider = provider;
-						this.ActivateItem(viewModel);
+						SelectedProvider = provider;
+						ActivateItem(viewModel);
 
 						// Set the validation error message.
-						this.ValidationMessage = error;
+						ValidationMessage = error;
 
 						return;
 					}
@@ -138,7 +137,7 @@ namespace Tail.ViewModels
 			}
 
 			// Close the dialog.
-			this.TryClose(true);
+			TryClose(true);
 		}
 	}
 }

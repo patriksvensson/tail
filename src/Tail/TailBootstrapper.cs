@@ -1,27 +1,4 @@
-﻿// ﻿
-// Copyright (c) 2013 Patrik Svensson
-// 
-// This file is part of Tail.
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-// 
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using Ninject;
@@ -29,8 +6,6 @@ using Ninject.Extensions.Factory;
 using Tail.ViewModels;
 using Tail.Services;
 using Tail.Extensibility;
-using Tail.Providers;
-using System.IO;
 using System.Reflection;
 using System.Linq;
 using BlackBox;
@@ -59,7 +34,7 @@ namespace Tail
 			_scanner = scanner ?? new TailProviderScannerService();
 
 			// Start the Caliburn.Micro framework.
-			this.Start();
+			Start();
 		}
 
 		protected override void Configure()
@@ -85,10 +60,10 @@ namespace Tail
 			_kernel.Bind<ISettingsViewModelFactory>().ToFactory();
 
 			// Register logging.
-			this.RegisterLogging();
+			RegisterLogging();
 
 			// Register known providers.
-			this.RegisterProviders();
+			RegisterProviders();
 		}
 
 		private void RegisterLogging()
@@ -111,7 +86,7 @@ namespace Tail
 		private void RegisterProviders()
 		{
 			// Find all external providers.
-			var assemblies = (IEnumerable<Assembly>)null;
+			IEnumerable<Assembly> assemblies;
 			var types = _scanner.Scan(out assemblies).ToArray();
 			if (types.Length > 0)
 			{
@@ -154,7 +129,7 @@ namespace Tail
 		protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
 		{
 			// Display the shell.
-			this.DisplayRootViewFor<ShellViewModel>();
+			DisplayRootViewFor<ShellViewModel>();
 		}
 
 		protected override void OnExit(object sender, EventArgs e)

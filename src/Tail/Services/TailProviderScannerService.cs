@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Tail.Extensibility;
 
 namespace Tail.Services
@@ -41,12 +39,12 @@ namespace Tail.Services
 				var assemblyFiles = new List<FileInfo>();
 
 				// Get all the assemblies in the directory.
-				IEnumerable<FileInfo> files = this.GetFiles(directory);
+				IEnumerable<FileInfo> files = GetFiles(directory);
 				foreach (FileInfo file in files)
 				{
 					// Load the assembly into the temporary application domain.
 					AssemblyName name = AssemblyName.GetAssemblyName(file.FullName);
-					Assembly assembly = this.LoadAssembly(domain, name);
+					Assembly assembly = LoadAssembly(domain, name);
 					if (assembly == null)
 					{
 						continue;
@@ -59,7 +57,7 @@ namespace Tail.Services
 					}
 
 					// Got any types here?
-					var types = this.ScanAssembly(assembly);
+					var types = ScanAssembly(assembly);
 					if (types.Any())
 					{
 						assemblyFiles.Add(file);
@@ -77,7 +75,7 @@ namespace Tail.Services
 
 					assemblyList.Add(assembly);
 
-					var components = this.ScanAssembly(assembly);
+					var components = ScanAssembly(assembly);
 					foreach (var component in components)
 					{
 						result.Add(component);

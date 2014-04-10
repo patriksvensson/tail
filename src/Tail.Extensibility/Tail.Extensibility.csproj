@@ -51,7 +51,7 @@
     <Compile Include="Abstractions\ITailProvider.cs" />
     <Compile Include="Abstractions\ITailSettings.cs" />
     <Compile Include="Abstractions\ITailSettingService.cs" />
-    <Compile Include="EmptyContext.cs" />
+    <Compile Include="EmptyStreamContext.cs" />
     <Compile Include="Extensions\TailSettingServiceExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Abstractions\ITailStreamListener.cs" />

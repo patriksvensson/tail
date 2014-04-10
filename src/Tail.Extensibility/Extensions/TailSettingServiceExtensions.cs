@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using Microsoft.Win32;
+﻿using System.ComponentModel;
 
 namespace Tail.Extensibility
 {

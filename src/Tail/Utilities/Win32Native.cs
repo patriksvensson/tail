@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Text;
 using Microsoft.Win32;
 
 namespace Tail.Providers.Utilities
@@ -155,10 +152,13 @@ namespace Tail.Providers.Utilities
 		{
 			if (!IsUacEnabled())
 			{
-				WindowsIdentity identity = WindowsIdentity.GetCurrent();
-				WindowsPrincipal principal = new WindowsPrincipal(identity);
-				bool result = principal.IsInRole(WindowsBuiltInRole.Administrator);
-				return result;
+				var identity = WindowsIdentity.GetCurrent();
+			    if (identity == null)
+			    {
+			        return false;
+			    }
+				var principal = new WindowsPrincipal(identity);
+				return principal.IsInRole(WindowsBuiltInRole.Administrator);
 			}
 
 			IntPtr tokenHandle;
@@ -167,17 +167,16 @@ namespace Tail.Providers.Utilities
 				return true;
 			}
 
-			TokenElevationType elevationResult = TokenElevationType.TokenElevationTypeDefault;
+			var elevationResult = TokenElevationType.TokenElevationTypeDefault;
+			var elevationResultSize = Marshal.SizeOf((int)elevationResult);			
+			var elevationTypePtr = Marshal.AllocHGlobal(elevationResultSize);
+            uint returnedSize;
 
-			int elevationResultSize = Marshal.SizeOf((int)elevationResult);
-			uint returnedSize = 0;
-			IntPtr elevationTypePtr = Marshal.AllocHGlobal(elevationResultSize);
-
-			bool success = GetTokenInformation(tokenHandle, TokenInformationClass.TokenElevationType, elevationTypePtr, (uint)elevationResultSize, out returnedSize);
+			var success = GetTokenInformation(tokenHandle, TokenInformationClass.TokenElevationType, elevationTypePtr, (uint)elevationResultSize, out returnedSize);
 			if (success)
 			{
 				elevationResult = (TokenElevationType)Marshal.ReadInt32(elevationTypePtr);
-				bool isProcessAdmin = elevationResult == TokenElevationType.TokenElevationTypeFull;
+				var isProcessAdmin = elevationResult == TokenElevationType.TokenElevationTypeFull;
 				return isProcessAdmin;
 			}
 			return true;
