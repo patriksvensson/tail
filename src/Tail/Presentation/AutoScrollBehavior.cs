@@ -45,6 +45,7 @@ namespace Tail.Presentation
 			var control = e.Source as TextBox;
 			if (control != null)
 			{
+			    control.CaretIndex = control.Text.Length;
 				control.ScrollToEnd();
 			}
 		}

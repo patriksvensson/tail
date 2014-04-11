@@ -13,7 +13,7 @@ namespace Tail.Tests.Unit.Messages
 		public void Should_Throw_If_Thread_ID_Is_Invalid(int threadId)
 		{
 			// Given, When
-			var result = Record.Exception(() => new StartedListeningEvent(threadId, "Description"));
+            var result = Record.Exception(() => new StartedListeningEvent(threadId, "Description", "Name"));
 
 			// Then
 			Assert.IsType<ArgumentException>(result);
@@ -24,7 +24,7 @@ namespace Tail.Tests.Unit.Messages
 		public void Should_Throw_If_Description_Is_Null()
 		{
 			// Given, When
-			var result = Record.Exception(() => new StartedListeningEvent(1, null));
+            var result = Record.Exception(() => new StartedListeningEvent(1, null, "Name"));
 
 			// Then
 			Assert.IsType<ArgumentNullException>(result);
@@ -35,7 +35,7 @@ namespace Tail.Tests.Unit.Messages
 		public void Should_Throw_If_Description_Is_Empty()
 		{
 			// Given, When
-			var result = Record.Exception(() => new StartedListeningEvent(1, string.Empty));
+            var result = Record.Exception(() => new StartedListeningEvent(1, string.Empty, "Name"));
 
 			// Then
 			Assert.IsType<ArgumentException>(result);
@@ -46,7 +46,7 @@ namespace Tail.Tests.Unit.Messages
 		public void Should_Set_Description()
 		{
 			// Given, When
-			var result = new StartedListeningEvent(1, "Description");
+            var result = new StartedListeningEvent(1, "Description", "Name");
 
 			// Then
 			Assert.Equal("Description", result.Description);
@@ -56,7 +56,7 @@ namespace Tail.Tests.Unit.Messages
 		public void Should_Set_Thread_ID()
 		{
 			// Given, When
-			var result = new StartedListeningEvent(1, "Description");
+            var result = new StartedListeningEvent(1, "Description", "Name");
 
 			// Then
 			Assert.Equal(1, result.ThreadId);

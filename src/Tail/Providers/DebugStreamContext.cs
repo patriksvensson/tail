@@ -20,5 +20,10 @@ namespace Tail.Providers
 		{
 			return "Debug";
 		}
+
+	    public string GetName()
+	    {
+	        return "Debug";
+	    }
 	}
 }

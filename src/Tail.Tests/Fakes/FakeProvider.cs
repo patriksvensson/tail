@@ -46,7 +46,7 @@ namespace Tail.Tests.Fakes
 
 		public ITailStreamContext CreateContext(ITailConfiguration viewModel)
 		{
-			return new EmptyStreamContext("Fake");
+			return new EmptyStreamContext("Fake", "Name");
 		}
 	}
 }

@@ -1,6 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Caliburn.Micro;
 using Tail.Messages;
 using BlackBox;
+using Tail.Models;
+using System.Diagnostics;
 
 namespace Tail.ViewModels
 {
@@ -15,7 +19,7 @@ namespace Tail.ViewModels
 		private readonly IStreamViewModelFactory _streamFactory;
 		private readonly ISettingsViewModelFactory _settingsFactory;
 		private readonly AboutViewModel _aboutViewModel;
-		private int _currentId;
+	    private readonly List<ViewModelMapping> _mappings;
 
 		public bool CanPause
 		{
@@ -29,26 +33,18 @@ namespace Tail.ViewModels
 
 		public bool CanOpenListener
 		{
-			get { return _currentId < 0; }
+			get { return true; }
 		}
 
 		public bool CanCloseListener
 		{
-			get { return _currentId >= 0; }
+            get { return ActiveItem != null; }
 		}
 
-		public int CurrentId
-		{
-			get { return _currentId; }
-			set
-			{
-				_currentId = value;
-				NotifyOfPropertyChange(() => CanPause);
-				NotifyOfPropertyChange(() => CanResume);
-				NotifyOfPropertyChange(() => CanOpenListener);
-				NotifyOfPropertyChange(() => CanCloseListener);
-			}
-		}
+	    public bool HasListeners
+	    {
+            get { return ActiveItem != null; }
+	    }
 
 		public ShellViewModel(IEventAggregator eventAggregator, IWindowManager windowManager, ITailListenerService service,
 			ILogger logger, IStreamConfigurationViewModelFactory streamConfigurationFactory, IStreamViewModelFactory streamFactory,
@@ -64,17 +60,28 @@ namespace Tail.ViewModels
 			_streamFactory = streamFactory;
 			_settingsFactory = settingsFactory;
 			_aboutViewModel = aboutViewModel;
+            _mappings = new List<ViewModelMapping>();
 
 			// Set the display name.
 			DisplayName = "Tail";
-			CurrentId = -1;
 		}
+
+	    public override void ActivateItem(IStreamViewModel item)
+	    {
+	        base.ActivateItem(item);
+
+            NotifyOfPropertyChange(() => CanPause);
+            NotifyOfPropertyChange(() => CanResume);
+            NotifyOfPropertyChange(() => CanOpenListener);
+            NotifyOfPropertyChange(() => CanCloseListener);
+            NotifyOfPropertyChange(() => HasListeners);
+	    }
 
 	    protected override void OnDeactivate(bool close)
 		{
 			if (close)
 			{
-				_service.Stop();
+                _service.Stop();
 			}
 			base.OnDeactivate(close);
 		}
@@ -87,9 +94,18 @@ namespace Tail.ViewModels
 
 		public void CloseListener()
 		{
-			_logger.Information("Closing current listener");
-			_service.Stop(_currentId);
+		    CloseListener(ActiveItem);
 		}
+        
+        public void CloseListener(IStreamViewModel sender)
+	    {
+            var mapping = _mappings.SingleOrDefault(x => x.ViewModel == sender);
+            if (mapping != null)
+            {
+                _logger.Information("Closing current listener #{0}", mapping.ThreadId);
+                _service.Stop(mapping.ThreadId);
+            }		
+	    }
 
 		public void Pause()
 		{
@@ -106,7 +122,7 @@ namespace Tail.ViewModels
 		{
 			if (ActiveItem != null)
 			{
-				_logger.Information("Resuming auto scroll");
+                _logger.Information("Resuming auto scroll");
 				ActiveItem.Resume();
 			}
 			NotifyOfPropertyChange(() => CanPause);
@@ -137,6 +153,7 @@ namespace Tail.ViewModels
 
 		public void Handle(StopListeningEvent message)
 		{
+            Debug.Assert(message.ThreadId > -1, "Invalid thread ID recieved.");
 			_logger.Information("Received StartListeningEvent (#{0})", message.ThreadId);
 
 			if (message.ThreadId > 0)
@@ -151,23 +168,47 @@ namespace Tail.ViewModels
 
 		public void Handle(StartedListeningEvent message)
 		{
+            Debug.Assert(message.ThreadId > -1, "Invalid thread ID recieved.");
 			_logger.Information("Received StartedListeningEvent (#{0})", message.ThreadId);
 
+            // Create the view model.
 			var viewModel = _streamFactory.Create(message.ThreadId);
+		    viewModel.DisplayName = message.TabName;
 
+            // Add a view model mapping to be able to do thread lookup.
+            // The reason for this is that we don't want to let the view model
+            // handle it's own associated thread ID.
+            _mappings.Add(new ViewModelMapping(viewModel, message.ThreadId));
+
+            // Activate the new stream listener.
 			ActivateItem(viewModel);
-			CurrentId = message.ThreadId;
-			DisplayName = string.Format("Tail [{0}]", message.Description);
+
+            NotifyOfPropertyChange(() => CanPause);
+            NotifyOfPropertyChange(() => CanResume);
+            NotifyOfPropertyChange(() => CanOpenListener);
+            NotifyOfPropertyChange(() => CanCloseListener);
+            NotifyOfPropertyChange(() => HasListeners);
 		}
 
 		public void Handle(StoppedListeningEvent message)
 		{
+            Debug.Assert(message.ThreadId > -1, "Invalid thread ID recieved.");
 			_logger.Information("Received StoppedListeningEvent (#{0})", message.ThreadId);
 
-			this.CloseItem(ActiveItem);
+            // Find the view model mapping from the thread ID.
+		    var mapping = _mappings.SingleOrDefault(x => x.ThreadId == message.ThreadId);
+		    if (mapping != null)
+		    {
+		        var removed = _mappings.Remove(mapping);
+                Debug.Assert(removed, "Could not remove view model mapping.");
+                this.CloseItem(mapping.ViewModel);   
+		    }
 
-			CurrentId = -1;
-			DisplayName = "Tail";
+            NotifyOfPropertyChange(() => CanPause);
+            NotifyOfPropertyChange(() => CanResume);
+            NotifyOfPropertyChange(() => CanOpenListener);
+            NotifyOfPropertyChange(() => CanCloseListener);
+            NotifyOfPropertyChange(() => HasListeners);
 		}
 	}
 }

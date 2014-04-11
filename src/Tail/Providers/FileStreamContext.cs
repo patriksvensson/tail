@@ -16,6 +16,11 @@ namespace Tail.Providers
 			return Path;
 		}
 
+        public string GetName()
+        {
+            return System.IO.Path.GetFileName(Path);
+        }
+
 		public FileStreamContext(string path)
 		{
 			_path = path;

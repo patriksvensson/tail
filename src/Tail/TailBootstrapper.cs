@@ -77,7 +77,7 @@ namespace Tail
 
 			// Create the kernel.
 			var kernel = new LogKernel(configuration);
-
+                       
 			// Register the kernel and loggers in the container.
 			_kernel.Bind<ILogKernel>().ToConstant(kernel).InSingletonScope();
 			_kernel.Bind<ILogger>().ToMethod(x => x.Kernel.Get<ILogKernel>().GetLogger(x.Request.ParentRequest.Service));

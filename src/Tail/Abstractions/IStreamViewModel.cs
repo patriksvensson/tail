@@ -2,7 +2,7 @@
 {
 	public interface IStreamViewModel
 	{
-		bool CanPause { get; }
+        bool CanPause { get; }
 		bool CanResume { get; }
 
 		void Pause();

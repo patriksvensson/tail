@@ -33,7 +33,7 @@ namespace Tail.Services
 				var id = Interlocked.Increment(ref _counter);
 
 				// Notify about a new thread.
-				_eventAggregator.Publish(new StartedListeningEvent(id, streamContext.GetDescription()));
+				_eventAggregator.Publish(new StartedListeningEvent(id, streamContext.GetDescription(), streamContext.GetName()));
 
 				// Initialize the listener.
 				streamListener.Initialize(streamContext);

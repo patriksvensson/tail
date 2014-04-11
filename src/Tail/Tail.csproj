@@ -98,6 +98,7 @@
     <Compile Include="Messages\StoppedListeningEvent.cs" />
     <Compile Include="Messages\StartListeningEvent.cs" />
     <Compile Include="Messages\StartedListeningEvent.cs" />
+    <Compile Include="Models\ViewModelMapping.cs" />
     <Compile Include="Presentation\BoolToVisibilityConverter.cs" />
     <Compile Include="Presentation\AutoScrollBehavior.cs" />
     <Compile Include="Abstractions\ITailListenerService.cs" />
