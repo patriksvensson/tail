@@ -70,7 +70,7 @@ namespace Tail.ViewModels
 			CurrentId = -1;
 		}
 
-		protected override void OnDeactivate(bool close)
+	    protected override void OnDeactivate(bool close)
 		{
 			if (close)
 			{
@@ -123,6 +123,11 @@ namespace Tail.ViewModels
 		{
 			_windowManager.ShowDialog(_aboutViewModel);
 		}
+
+	    public void Exit()
+	    {
+	        TryClose();
+	    }
 
 		public void Handle(StartListeningEvent message)
 		{

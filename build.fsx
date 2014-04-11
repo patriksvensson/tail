@@ -66,7 +66,6 @@ Target "Copy-Files" (fun _ ->
         CopyFile binDir (buildDir + "/BlackBox.dll")
         CopyFile binDir (buildDir + "/Caliburn.Micro.dll")
         CopyFile binDir (buildDir + "/Castle.Core.dll")
-        CopyFile binDir (buildDir + "/MahApps.Metro.dll")
         CopyFile binDir (buildDir + "/Ninject.dll")
         CopyFile binDir (buildDir + "/Ninject.Extensions.Factory.dll")
         CopyFile binDir (buildDir + "/System.Windows.Interactivity.dll")

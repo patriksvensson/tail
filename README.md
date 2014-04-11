@@ -30,11 +30,8 @@ You can find the latest release [here](https://github.com/patriksvensson/tail/re
 See the [patriksvensson/tail-example](https://github.com/patriksvensson/tail-example) repository for an example of how to extend Tail.
 
 ###Credits
-* [MahApps.Metro UI toolkit](http://mahapps.com/MahApps.Metro)
-* [Modern UI Icons](http://modernuiicons.com/)
 * [Caliburn.Micro](http://http://caliburnmicro.codeplex.com/)
 * [Ninject](http://www.ninject.org/)
-* [Blackbox](http://github.com/patriksvensson/blackbox)
 
 ###License
 Tail is made available under the MIT license. See the file LICENSE for the complete license text.  

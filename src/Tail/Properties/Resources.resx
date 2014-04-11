@@ -123,7 +123,6 @@
 - Caliburn.Micro
 - Ninject
 - Ninject.Extensions.Factory
-- MahApps.Metro
 - BlackBox
 
 Tail is licensed under the MIT license.
