@@ -16,7 +16,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontWeight="Bold">Version 1.0</TextBlock>
+        <TextBlock Grid.Row="0" FontWeight="Bold">Version 1.1.0</TextBlock>
 
         <Grid Grid.Row="1">
             <Grid.Resources>
